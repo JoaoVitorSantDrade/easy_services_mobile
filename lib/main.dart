@@ -13,6 +13,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Easy Services',
       theme: ThemeData(
+        useMaterial3: true,
+
         // This is the theme of your application.
         //
         // TRY THIS: Try running your application with "flutter run". You'll see
@@ -28,8 +30,52 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+            // salvar em uma variável
+            seedColor: Colors.deepPurple,
+            primary: const Color(0x0D6EFFFF),
+            background: const Color(0xE9E9E9FF)),
+
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            minimumSize: const Size(256.0, 50.0),
+            maximumSize: const Size(500.0, 50.0),
+            backgroundColor: here,
+          ),
+        ),
+
+        buttonTheme: ButtonThemeData(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          height: 50.0,
+          minWidth: 256.0,
+          buttonColor: const Color(0xFF0D6EFF),
+          textTheme: ButtonTextTheme.primary,
+          colorScheme: const ColorScheme.light(
+            primary: Color(0xFFFFFFFF), // Text color
+          ),
+        ),
+
+        textTheme: const TextTheme(
+            titleMedium: TextStyle(
+              color: Color(0x1F2937FF),
+              fontFamily: 'Inter',
+              fontWeight: FontWeight.w600,
+              fontSize: 24.0,
+              height: 1.5,
+            ),
+            titleSmall: TextStyle(
+              color: Color(0xFF4B5563),
+              fontFamily: 'Inter',
+              fontWeight: FontWeight
+                  .normal, // Regular is equivalent to FontWeight.normal
+              fontSize: 14.0,
+              height: 1.5,
+            )),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
