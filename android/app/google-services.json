@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "294468901616",
+    "project_id": "easy-services-ec581",
+    "storage_bucket": "easy-services-ec581.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:294468901616:android:3b9edea36089b6ef7f0035",
+        "android_client_info": {
+          "package_name": "com.example.easy_services"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQNRGkbCv4ZbEMuKuIzN07ADJCp5uGP94"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
