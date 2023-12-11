@@ -23,7 +23,7 @@ class StartPage extends StatelessWidget {
                   width: 300,
                   child: Image.asset('assets/images/mainIcon.png'),
                 ),
-                Container(
+                SizedBox(
                   width: 300,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -56,14 +56,25 @@ class StartPage extends StatelessWidget {
                                   maxHeight: 600, maxWidth: 500),
                               isScrollControlled: true,
                               builder: (BuildContext context) {
-                                return const LoginBottomSeet();
+                                return const LoginBottomSheet(
+                                  type: "Entrar",
+                                );
                               });
                         },
                       ),
                       SecondaryButton(
                         buttonText: "Criar Conta",
                         callback: () {
-                          print("Criar Conta");
+                          showModalBottomSheet(
+                              context: context,
+                              constraints: const BoxConstraints(
+                                  maxHeight: 600, maxWidth: 500),
+                              isScrollControlled: true,
+                              builder: (BuildContext context) {
+                                return const LoginBottomSheet(
+                                  type: "Registrar",
+                                );
+                              });
                         },
                       )
                     ],

@@ -29,6 +29,7 @@ class LoginFormField extends StatelessWidget {
                 Radius.circular(32),
               ),
             ),
+            alignLabelWithHint: true,
             hintStyle:
                 const TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
             hintText: "Digite $formName",
@@ -39,7 +40,6 @@ class LoginFormField extends StatelessWidget {
           if (value == null || value.isEmpty) {
             return '$formName é necessário';
           }
-          return null;
         },
       ),
     );

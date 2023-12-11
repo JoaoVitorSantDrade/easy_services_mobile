@@ -1,12 +1,15 @@
 import 'package:easy_services/firebase_options.dart';
+import 'package:easy_services/hooks/sqlLite_service_hook.dart';
 import 'package:easy_services/loginPages/view/startPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() async {
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await SqliteService().dropAndRecreateTable();
   runApp(const MyApp());
 }
 
@@ -46,6 +49,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: const Scaffold(
+        resizeToAvoidBottomInset: false,
         body: StartPage(),
       ),
     );
