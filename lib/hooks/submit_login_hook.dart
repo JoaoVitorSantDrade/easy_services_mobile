@@ -1,9 +1,11 @@
 import 'dart:developer';
 
 import 'package:easy_services/models/easyUserModel.dart';
+import 'package:easy_services/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:easy_services/hooks/sqlLite_service_hook.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -61,6 +63,7 @@ submitRegister(
 
 submitRegisterLite(
     BuildContext context,
+    WidgetRef ref,
     GlobalKey<FormState> formKey,
     ValueNotifier<String> valueNotifier,
     TextEditingController nameController,
@@ -75,6 +78,8 @@ submitRegisterLite(
           password: passwordController.text,
           userType: valueNotifier.value);
       await SqliteService().create(user);
+      ref.read(emailProvider.notifier).state = user.email;
+      ref.read(nameProvider.notifier).state = user.name;
       Fluttertoast.showToast(
           msg: "Usuário Criado com sucesso!",
           toastLength: Toast.LENGTH_SHORT,
@@ -83,6 +88,7 @@ submitRegisterLite(
           backgroundColor: Theme.of(context).colorScheme.primaryContainer,
           textColor: Theme.of(context).colorScheme.primary,
           fontSize: 16.0);
+      Navigator.pushNamed(context, '/dashboard');
     } catch (e) {
       Fluttertoast.showToast(
           msg: "Erro ao criar Usuário",

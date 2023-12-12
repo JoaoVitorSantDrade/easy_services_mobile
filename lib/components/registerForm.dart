@@ -1,4 +1,3 @@
-import 'package:easy_services/buttons/forgotPasswordButton.dart';
 import 'package:easy_services/buttons/mainButton.dart';
 import 'package:easy_services/components/dropdownFormField.dart';
 import 'package:easy_services/components/loginFormField.dart';
@@ -10,10 +9,10 @@ class RegisterForm extends ConsumerStatefulWidget {
   const RegisterForm({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _RegisterFormState();
+  RegisterFormState createState() => RegisterFormState();
 }
 
-class _RegisterFormState extends ConsumerState<ConsumerStatefulWidget> {
+class RegisterFormState extends ConsumerState<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -62,6 +61,7 @@ class _RegisterFormState extends ConsumerState<ConsumerStatefulWidget> {
               buttonText: "Criar usuário",
               callback: () => submitRegisterLite(
                   context,
+                  ref,
                   _formKey,
                   _selectedItem,
                   _nameController,
@@ -72,5 +72,11 @@ class _RegisterFormState extends ConsumerState<ConsumerStatefulWidget> {
         ]),
       ),
     );
+  }
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    // TODO: implement createState
+    throw UnimplementedError();
   }
 }

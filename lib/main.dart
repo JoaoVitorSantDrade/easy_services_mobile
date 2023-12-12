@@ -5,13 +5,18 @@ import 'package:easy_services/view/startPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await SqliteService().dropAndRecreateTable();
-  runApp(const MyApp());
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -54,7 +59,7 @@ class MyApp extends StatelessWidget {
         body: StartPage(),
       ),
       routes: {
-        '/dashboard': (context) => const ProfilePage(),
+        '/dashboard': (context) => ProfilePage(),
       },
     );
   }

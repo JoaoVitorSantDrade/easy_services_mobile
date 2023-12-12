@@ -2,15 +2,11 @@ import 'package:easy_services/components/loginForm.dart';
 import 'package:easy_services/components/registerForm.dart';
 import 'package:flutter/material.dart';
 
-class LoginBottomSheet extends StatefulWidget {
+class LoginBottomSheet extends StatelessWidget {
   final String type;
+
   const LoginBottomSheet({super.key, required this.type});
 
-  @override
-  State<StatefulWidget> createState() => _LoginBottomSheetState();
-}
-
-class _LoginBottomSheetState extends State<LoginBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -35,7 +31,7 @@ class _LoginBottomSheetState extends State<LoginBottomSheet> {
               ),
               child: Column(children: [
                 Text(
-                  widget.type,
+                  type,
                   style: TextStyle(
                     color: Theme.of(context).primaryColor,
                     fontFamily: "Inter",
@@ -43,10 +39,10 @@ class _LoginBottomSheetState extends State<LoginBottomSheet> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                if (widget.type == 'Entrar')
+                if (type == 'Entrar')
                   const LoginForm()
-                else if (widget.type == 'Registrar')
-                  const RegisterForm(),
+                else if (type == 'Registrar')
+                  RegisterForm(),
               ]),
             ),
           );
