@@ -1,6 +1,6 @@
 import 'package:easy_services/buttons/forgotPasswordButton.dart';
 import 'package:easy_services/buttons/mainButton.dart';
-import 'package:easy_services/loginPages/components/loginFormField.dart';
+import 'package:easy_services/components/loginFormField.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_services/hooks/submit_login_hook.dart';
 

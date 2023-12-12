@@ -1,6 +1,7 @@
 import 'package:easy_services/firebase_options.dart';
 import 'package:easy_services/hooks/sqlLite_service_hook.dart';
-import 'package:easy_services/loginPages/view/startPage.dart';
+import 'package:easy_services/view/profilePage.dart';
+import 'package:easy_services/view/startPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -52,6 +53,9 @@ class MyApp extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         body: StartPage(),
       ),
+      routes: {
+        '/dashboard': (context) => const ProfilePage(),
+      },
     );
   }
 }

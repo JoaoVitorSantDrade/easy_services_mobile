@@ -1,5 +1,5 @@
-import 'package:easy_services/loginPages/components/loginForm.dart';
-import 'package:easy_services/loginPages/components/registerForm.dart';
+import 'package:easy_services/components/loginForm.dart';
+import 'package:easy_services/components/registerForm.dart';
 import 'package:flutter/material.dart';
 
 class LoginBottomSheet extends StatefulWidget {

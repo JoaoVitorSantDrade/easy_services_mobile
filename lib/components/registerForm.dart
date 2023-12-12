@@ -1,18 +1,19 @@
 import 'package:easy_services/buttons/forgotPasswordButton.dart';
 import 'package:easy_services/buttons/mainButton.dart';
-import 'package:easy_services/loginPages/components/dropdownFormField.dart';
-import 'package:easy_services/loginPages/components/loginFormField.dart';
+import 'package:easy_services/components/dropdownFormField.dart';
+import 'package:easy_services/components/loginFormField.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_services/hooks/submit_login_hook.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RegisterForm extends StatefulWidget {
-  const RegisterForm({super.key});
+class RegisterForm extends ConsumerStatefulWidget {
+  const RegisterForm({Key? key}) : super(key: key);
 
   @override
-  State<RegisterForm> createState() => _RegisterFormState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _RegisterFormState();
 }
 
-class _RegisterFormState extends State<RegisterForm> {
+class _RegisterFormState extends ConsumerState<ConsumerStatefulWidget> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();

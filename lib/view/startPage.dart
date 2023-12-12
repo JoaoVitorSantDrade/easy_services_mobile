@@ -1,7 +1,7 @@
 import 'package:easy_services/buttons/mainButton.dart';
 import 'package:easy_services/buttons/secondaryButton.dart';
-import 'package:easy_services/loginPages/components/bottomSheet.dart';
-import 'package:easy_services/loginPages/components/termsAndCondition.dart';
+import 'package:easy_services/components/bottomSheet.dart';
+import 'package:easy_services/components/termsAndCondition.dart';
 import 'package:flutter/material.dart';
 
 class StartPage extends StatelessWidget {
