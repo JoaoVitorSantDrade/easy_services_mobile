@@ -30,11 +30,26 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  http: ^0.13.3
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.15.2
+  sqflite: ^2.3.0
+  path: ^1.8.3
+  path_provider: ^2.1.1
+  uuid: ^4.2.1
+  fluttertoast: ^8.2.4
+  sqflite_common_ffi: ^2.3.1
+  sqflite_common: ^2.5.0+2
+  riverpod: ^2.4.9
+  flutter_riverpod: ^2.4.9
+  riverpod_annotation: ^2.3.3
+  file_picker: ^6.1.1
+  side_sheet: ^1.0.4
 
 dev_dependencies:
   flutter_test:
@@ -46,6 +61,10 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  riverpod_generator: ^2.3.9
+  build_runner: ^2.4.7
+  custom_lint: ^0.5.7
+  riverpod_lint: ^2.3.7
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -57,6 +76,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+    - assets/images/mainIcon.png
+    - assets/images/mainIconRounded.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -86,5 +108,36 @@ flutter:
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
+  fonts:
+    - family: Lato
+      fonts:
+        - asset: assets/fonts/Lato-Regular.ttf
+        - asset: assets/fonts/Lato-Italic.ttf
+          style: italic
+        - asset: assets/fonts/Lato-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Lato-BoldItalic.ttf
+          style: italic
+          weight: 700
+        - asset: assets/fonts/Lato-Black.ttf
+          weight: 900
+        - asset: assets/fonts/Lato-Black.ttf
+          style: italic
+          weight: 900
+        - asset: assets/fonts/Lato-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Lato-LightItalic.ttf
+          style: italic
+          weight: 300
+        - asset: assets/fonts/Lato-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/Lato-ThinItalic.ttf
+          style: italic
+          weight: 100
+
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter.ttf
+
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
