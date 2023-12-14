@@ -1,6 +1,9 @@
+import 'package:easy_services/models/easyAddressModel.dart';
+import 'package:easy_services/models/easyUserModel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final userTypeProvider = StateProvider<String?>((ref) => null);
-final nameProvider = StateProvider<String?>((ref) => null);
-final emailProvider = StateProvider<String?>((ref) => null);
-final passwordProvider = StateProvider<String?>((ref) => null);
+final easyUserProvider =
+    StateProvider<easyUserModel>((ref) => easyUserModel.empty());
+
+final easyAddressProvider =
+    StateProvider<easyAddressModel>((ref) => easyAddressModel.empty());

@@ -3,15 +3,16 @@ import 'package:easy_services/buttons/mainButton.dart';
 import 'package:easy_services/components/loginFormField.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_services/hooks/submit_login_hook.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginForm extends StatefulWidget {
+class LoginForm extends ConsumerStatefulWidget {
   const LoginForm({super.key});
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  LoginFormState createState() => LoginFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class LoginFormState extends ConsumerState<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -43,13 +44,13 @@ class _LoginFormState extends State<LoginForm> {
             children: [ForgotPasswordButton()],
           ),
           Container(
-            height: 40,
+            height: 50,
             width: 200,
-            margin: const EdgeInsets.only(top: 50),
+            margin: const EdgeInsets.only(top: 40, bottom: 20),
             child: MainButton(
-              buttonText: "Entrar",
-              callback: () => submitLoginLite(
-                  context, _formKey, _emailController, _passwordController),
+              buttonText: "Login",
+              callback: () => submitLoginLite(context, ref, _formKey,
+                  _emailController, _passwordController),
             ),
           )
         ]),

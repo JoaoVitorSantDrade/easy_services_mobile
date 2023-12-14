@@ -1,63 +1,36 @@
-import 'dart:developer';
+import 'dart:math';
 
+import 'package:easy_services/hooks/convertEasyToCliente.dart';
+import 'package:easy_services/models/cliente_model.dart';
 import 'package:easy_services/models/easyUserModel.dart';
+import 'package:easy_services/providers/auth_provider.dart';
 import 'package:easy_services/providers/user_provider.dart';
+import 'package:easy_services/services/cliente_api_service.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:easy_services/hooks/sqlLite_service_hook.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uuid/uuid.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-submitLogin(
-    BuildContext context,
-    GlobalKey<FormState> formKey,
-    TextEditingController emailController,
-    TextEditingController passwordController) async {
-  if (formKey.currentState!.validate()) {
-    try {
-      final userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: emailController.text, password: passwordController.text);
-      print(userCredential);
-      if (context.mounted) {
-        //Navigator.pushNamed(context, '/main', arguments: userCredential);
-      }
-    } on FirebaseAuthException catch (e) {
-      // ignore: use_build_context_synchronously
-      showAdaptiveDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              content: Text("${e.message}", textAlign: TextAlign.center),
-            );
-          });
-    }
-  }
-}
-
-submitRegister(
-    BuildContext context,
-    GlobalKey<FormState> formKey,
-    ValueNotifier<int> valueNotifier,
-    TextEditingController nameController,
-    TextEditingController emailController,
-    TextEditingController passwordController) async {
-  if (formKey.currentState!.validate()) {
-    try {
-      final userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: emailController.text, password: passwordController.text);
-    } on FirebaseAuthException catch (e) {
-      // ignore: use_build_context_synchronously
-      showAdaptiveDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              content: Text("${e.message}", textAlign: TextAlign.center),
-            );
-          });
-    }
+createUser(BuildContext context, easyUserModel user) async {
+  try {
+    await SqliteService().createUser(user);
+    Fluttertoast.showToast(
+        msg: "Usuário Criado com sucesso!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        textColor: Theme.of(context).colorScheme.primary,
+        fontSize: 16.0);
+  } catch (e) {
+    Fluttertoast.showToast(
+        msg: "Erro ao criar Usuário",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Theme.of(context).colorScheme.errorContainer,
+        textColor: Theme.of(context).colorScheme.error,
+        fontSize: 16.0);
   }
 }
 
@@ -72,14 +45,17 @@ submitRegisterLite(
   if (formKey.currentState!.validate()) {
     try {
       easyUserModel user = easyUserModel(
-          userId: const Uuid().v6(),
+          userId: Random.secure().nextInt(90000),
           name: nameController.text,
           email: emailController.text,
           password: passwordController.text,
           userType: valueNotifier.value);
-      await SqliteService().create(user);
-      ref.read(emailProvider.notifier).state = user.email;
-      ref.read(nameProvider.notifier).state = user.name;
+
+      await SqliteService().createUser(user);
+
+      ref.read(easyUserProvider.notifier).state = user;
+      ref.read(isAuthenticatedProvider.notifier).state = true;
+
       Fluttertoast.showToast(
           msg: "Usuário Criado com sucesso!",
           toastLength: Toast.LENGTH_SHORT,
@@ -88,7 +64,7 @@ submitRegisterLite(
           backgroundColor: Theme.of(context).colorScheme.primaryContainer,
           textColor: Theme.of(context).colorScheme.primary,
           fontSize: 16.0);
-      Navigator.pushNamed(context, '/dashboard');
+      Navigator.pushNamed(context, '/sucessRegister');
     } catch (e) {
       Fluttertoast.showToast(
           msg: "Erro ao criar Usuário",
@@ -104,6 +80,7 @@ submitRegisterLite(
 
 submitLoginLite(
   BuildContext context,
+  WidgetRef ref,
   GlobalKey<FormState> formKey,
   TextEditingController emailController,
   TextEditingController passwordController,
@@ -118,13 +95,97 @@ submitLoginLite(
       );
 
       if (user != null) {
-        // User found, do something (e.g., navigate to rthe home screen)
-        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        ref.read(easyUserProvider.notifier).state = user;
+        ref.read(isAuthenticatedProvider.notifier).state = true;
+        //ref.read(easyUserProvider.notifier).state pegar o estado dos endereços do banco de dados
+
         print('Login successful');
+        await Fluttertoast.showToast(
+            msg: "Olá, ${ref.watch(easyUserProvider).name}!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.TOP,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+            textColor: Theme.of(context).colorScheme.primary,
+            fontSize: 16.0);
+        Navigator.pushNamed(context, '/home');
       }
     } catch (e) {
-      // Handle any exceptions
       print('Error during login: $e');
+      Fluttertoast.showToast(
+          msg: "$e",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.TOP,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Theme.of(context).colorScheme.errorContainer,
+          textColor: Theme.of(context).colorScheme.error,
+          fontSize: 16.0);
     }
+  }
+}
+
+submitLoginDjango(
+  BuildContext context,
+  GlobalKey<FormState> formKey,
+  TextEditingController emailController,
+  TextEditingController passwordController,
+) async {
+  if (formKey.currentState!.validate()) {
+    try {
+      final result = await ClienteApi()
+          .loginCliente(emailController.text, passwordController.text);
+
+      print('Login successful');
+      await Fluttertoast.showToast(
+          msg: "Bem-Vindo!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.TOP,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+          textColor: Theme.of(context).colorScheme.primary,
+          fontSize: 16.0);
+      Navigator.pushNamed(context, '/home');
+    } catch (e) {
+      print('Error during login: $e');
+      Fluttertoast.showToast(
+          msg: "$e",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.TOP,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Theme.of(context).colorScheme.errorContainer,
+          textColor: Theme.of(context).colorScheme.error,
+          fontSize: 16.0);
+    }
+  }
+}
+
+submitRegisterDjango(
+  BuildContext context,
+  WidgetRef ref,
+) async {
+  try {
+    easyUserModel eUser = ref.watch(easyUserProvider);
+    await ClienteApi().createCliente(convert(eUser));
+
+    print('Register successful');
+    await Fluttertoast.showToast(
+        msg: "Bem-Vindo!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        textColor: Theme.of(context).colorScheme.primary,
+        fontSize: 16.0);
+    Navigator.pushNamed(context, '/home');
+  } catch (e) {
+    print('Error during Register: $e');
+    Fluttertoast.showToast(
+        msg: "$e",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Theme.of(context).colorScheme.errorContainer,
+        textColor: Theme.of(context).colorScheme.error,
+        fontSize: 16.0);
   }
 }

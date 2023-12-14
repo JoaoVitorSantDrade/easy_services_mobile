@@ -1,9 +1,15 @@
+import 'dart:math';
+
 import 'package:easy_services/buttons/mainButton.dart';
 import 'package:easy_services/components/dropdownFormField.dart';
 import 'package:easy_services/components/loginFormField.dart';
+import 'package:easy_services/models/easyUserModel.dart';
+import 'package:easy_services/providers/auth_provider.dart';
+import 'package:easy_services/providers/user_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_services/hooks/submit_login_hook.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:uuid/uuid.dart';
 
 class RegisterForm extends ConsumerStatefulWidget {
   const RegisterForm({Key? key}) : super(key: key);
@@ -54,11 +60,11 @@ class RegisterFormState extends ConsumerState<RegisterForm> {
             keytype: TextInputType.visiblePassword,
           ),
           Container(
-            height: 40,
+            height: 50,
             width: 200,
-            margin: const EdgeInsets.only(top: 50),
+            margin: const EdgeInsets.only(top: 40, bottom: 20),
             child: MainButton(
-              buttonText: "Criar usuário",
+              buttonText: "Cadastre-se",
               callback: () => submitRegisterLite(
                   context,
                   ref,
@@ -73,10 +79,37 @@ class RegisterFormState extends ConsumerState<RegisterForm> {
       ),
     );
   }
+}
 
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() {
-    // TODO: implement createState
-    throw UnimplementedError();
+submitRegisterLite(
+    BuildContext context,
+    WidgetRef ref,
+    GlobalKey<FormState> formKey,
+    ValueNotifier<String> valueNotifier,
+    TextEditingController nameController,
+    TextEditingController emailController,
+    TextEditingController passwordController) async {
+  if (formKey.currentState!.validate()) {
+    try {
+      easyUserModel user = easyUserModel(
+          userId: Random.secure().nextInt(90000),
+          name: nameController.text,
+          email: emailController.text,
+          password: passwordController.text,
+          userType: valueNotifier.value);
+
+      ref.read(easyUserProvider.notifier).state = user;
+      ref.read(isAuthenticatedProvider.notifier).state = true;
+      Navigator.pushNamed(context, '/sucessRegister');
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: "Erro ao avançar",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.TOP,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Theme.of(context).colorScheme.errorContainer,
+          textColor: Theme.of(context).colorScheme.error,
+          fontSize: 16.0);
+    }
   }
 }

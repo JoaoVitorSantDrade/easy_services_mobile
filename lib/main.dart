@@ -1,8 +1,10 @@
-import 'package:easy_services/firebase_options.dart';
 import 'package:easy_services/hooks/sqlLite_service_hook.dart';
-import 'package:easy_services/view/profilePage.dart';
+import 'package:easy_services/view/addressInfo.dart';
+import 'package:easy_services/view/homePage.dart';
+import 'package:easy_services/view/myProfile.dart';
+import 'package:easy_services/view/personalInfo.dart';
+import 'package:easy_services/view/successRegisterPage.dart';
 import 'package:easy_services/view/startPage.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,8 +12,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await SqliteService().dropAndRecreateTable();
+  // SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
+  // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+  //   statusBarColor: Colors.transparent,
+  // ));
+
+  //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  //await SqliteService().dropAndRecreateTable();
   runApp(
     const ProviderScope(
       child: MyApp(),
@@ -28,8 +35,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Easy Services',
       theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF0D6EFF)),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color(0xFF0D6EFF), background: Colors.white),
         textTheme: const TextTheme(
           titleMedium: TextStyle(
             color: Color(0xFF0D6EFF),
@@ -55,11 +64,21 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: const Scaffold(
+        backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: StartPage(),
       ),
       routes: {
-        '/dashboard': (context) => ProfilePage(),
+        '/startPage': (context) => const Scaffold(
+              backgroundColor: Colors.white,
+              resizeToAvoidBottomInset: false,
+              body: StartPage(),
+            ),
+        '/sucessRegister': (context) => const SuccessRegisterPage(),
+        '/personalinfo': (context) => const PersonalInfo(),
+        '/address': (context) => const AddressInfo(),
+        '/home': (context) => const HomePage(),
+        '/myProfile': (context) => const MyProfile(),
       },
     );
   }

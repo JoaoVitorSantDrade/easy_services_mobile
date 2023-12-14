@@ -18,7 +18,7 @@ class SqliteService {
     );
   }
 
-  Future create(easyUserModel model) async {
+  Future createUser(easyUserModel model) async {
     try {
       final Database db = await initializeDB();
 
@@ -49,7 +49,7 @@ class SqliteService {
     }
   }
 
-  Future<void> update(easyUserModel model) async {
+  Future<void> updateUser(easyUserModel model) async {
     try {
       final Database db = await initializeDB();
 
@@ -65,7 +65,7 @@ class SqliteService {
     }
   }
 
-  Future<void> delete(String userId) async {
+  Future<void> deleteUser(int userId) async {
     try {
       final Database db = await initializeDB();
 
